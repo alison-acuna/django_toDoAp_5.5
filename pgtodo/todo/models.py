@@ -9,4 +9,4 @@ class ToDo(models.Model):
     date_created = models.DateTimeField(default=timezone.now)
     # timezone.now - the time when the intstance was created
     #  timezone.now() - the current time
-    
+    user = models.ForeignKey('auth.User', null=True)
