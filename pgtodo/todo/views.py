@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import ToDo
 from .forms import PostForm
+from django.utils import timezone
 # Create your views here.
 
 @login_required
@@ -27,23 +28,23 @@ def todo_list(request):
 # def todo_add(request):
 #
 def todo_new(request):
-    form = PostForm()
+    # form = PostForm()
+    # return render(request, 'todo/new.html', {
+    #     'form': form
+    # })
+    if request.method == "POST":
+        form = PostForm(request.POST)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.date_created = timezone.now()
+            post.save()
+            return redirect('todo_item', id=post.pk)
+    else:
+        form = PostForm()
     return render(request, 'todo/new.html', {
         'form': form
     })
-    # if request.method == "POST":
-    #     form = PostForm(request.POST)
-    #     if form.is_valid():
-    #         post = form.save(commit=False)
-    #         post.user = request.user
-    #         post.date_created = timezone.now()
-    #         post.save()
-    #         return redirect('post_detail', pk=post.pk)
-    # else:
-    #     form = PostForm()
-    # return render(request, 'todo_new.html', {
-    #     'form': form
-    #     })
 
 
 def add_new(request):
