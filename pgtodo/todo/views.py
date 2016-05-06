@@ -1,9 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import ToDo
-from .forms import PostForm
+from .forms import PostForm, DeleteForm
 from django.utils import timezone
 # Create your views here.
+
 
 @login_required
 
@@ -46,7 +47,38 @@ def todo_new(request):
         'form': form
     })
 
+def todo_edit(request, id):
+    post = get_object_or_404(ToDo, pk=id)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.date_created = timezone.now()
+            post.save()
+            return redirect('todo_item', id=post.pk)
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'todo/new.html', {
+        'form': form
+    })
 
-def add_new(request):
-    onClick(".save_btn_btn-default")
-    item = ToDo.objects.get(pk=id)
+def todo_delete (request, id):
+    new_to_delete = get_object_or_404(ToDo, pk=id)
+    if request.method == "POST":
+        form = DeleteForm(request.POST, instance=new_to_delete)
+        if form.is_valid():
+            new_to_delete.delete()
+            return redirect('todo_list')
+    else:
+        form = DeleteForm()
+        return render(request, 'todo/delete.html', {
+            'form': form
+            })
+
+
+# def todo_delete (request):
+    # form = DeleteForm(instance=new_to_delete)
+    # return render(request, 'todo/delete.html', {
+    #     'form': form
+    #     })
