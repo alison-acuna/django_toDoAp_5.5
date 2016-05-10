@@ -1,5 +1,9 @@
-<h1> Delete Items </h1>
-<form method="POST" class="post-form">{% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="save_btn_btn-default"> Submit </button>
+
+
+<form action="{% url 'todo_delete' id=id %}" method="post">{% csrf_token %}
+    <input type="submit" value="Confirm" />
 </form>
+
+
+
+<!-- in this the firstid is important and refers to the specific element of the url  -->

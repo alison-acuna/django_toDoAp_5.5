@@ -1,0 +1,14 @@
+{% extends 'todo/base.html' %}
+
+{% block main %}
+
+<h1> To Do </h1>
+
+{% include 'todo/new.html' %}
+{% include 'todo/list.html' %}
+
+{% endblock %}
+
+<!-- This is key.  This is how you include other pages or functions -->
+<!-- This does not include the arguments so it doesn't work {% include 'todo/list.html' %} -->
+<!-- The arguments will be included in the views function todo_home -->

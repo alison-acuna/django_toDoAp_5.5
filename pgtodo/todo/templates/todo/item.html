@@ -1,8 +1,13 @@
 
 <p>{{item.pk}} {{item.text}}</p>
 <p>{{item.created_date}}</p>
-<p>{{item.completed}}</p>
-<!--  Goal is to access to do list items by primary key-->
 
+<!-- {% include 'todo/edit.html' with id=item.pk %} -->
 
-<!-- Next Step - list items on single page -->
+{% include 'todo/delete.html' with id=item.pk %}
+
+<form action="{% url 'todo_home' %}" method="post">{% csrf_token %}
+    <input type="submit" value="Home" />
+</form>
+
+<!-- this ensures that the id itme will be input -->
