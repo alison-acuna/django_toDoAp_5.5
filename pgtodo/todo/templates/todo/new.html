@@ -1,5 +1,6 @@
-<h1> Add a New To Do List Item </h1>
-<form method="POST" action="{% url 'todo_new' %}" class="post-form">{% csrf_token %}
+
+<form method="POST" id="new_form" action="{% url 'todo_new' %}" class="post-form">{% csrf_token %}
     {{ form.as_p }}
+    <h4> Add a New To Do List Item </h4>
     <button type="submit" class="save_btn_btn-default"> Submit </button>
 </form>

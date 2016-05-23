@@ -1,12 +1,15 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
 <head>
-  <title> To Do </title>
+  <title> To Do Ap </title>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+  <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
-  <h3> Above the main block </h3>
   {% block main %}
   {% endblock %}
-  <h3> Below the main block </h3>
 </body>
 </html>

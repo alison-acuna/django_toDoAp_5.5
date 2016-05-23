@@ -1,3 +1,0 @@
-<form action="{% url 'todo_edit' id=id %}" method="post">{% csrf_token %}
-    <input type="submit" value="Edit" />
-</form>

@@ -9,6 +9,8 @@ from django.contrib.auth.forms import AuthenticationForm
 
 @login_required
 
+
+
 def todo_item(request, id):
     item = ToDo.objects.get(pk=id)
     # used to pass different items by field
@@ -18,9 +20,20 @@ def todo_item(request, id):
     })
 
 def todo_list(request):
+    """
+    Displays list of todo items.
+
+    **Context**
+
+    ``todos``
+        A list of todo items, instance of :model:`todo.ToDo`
+
+    **Template**
+
+    :template:`todo/list,html`
+    """
     todo = ToDo.objects.all()
-    # return all instances of a model and assign to a variable
-    # pk is the primary key field
+
     return render(request, 'todo/list.html', {
         'todo': todo
         # Assigns a todos variable to todos dictionary which inserts all to do
@@ -44,41 +57,48 @@ def todo_new(request):
         'form': form
     })
 
-# def todo_edit(request, id):
-#     post = get_object_or_404(ToDo, pk=id)
-#     if request.method == "POST":
-#         form = PostForm(request.POST, instance=post)
-#         if form.is_valid():
-#             post = form.save(commit=False)
-#             post.user = request.user
-#             post.date_created = timezone.now()
-#             post.save()
-#             return redirect('todo_item', id=post.pk)
-#     else:
-#         form = PostForm(instance=post)
-#     return render(request, 'todo/edit.html', {
-#         'form': form
-#     })
+
+
+def todo_edit(request, id):
+    post = get_object_or_404(ToDo, pk=id)
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.user = request.user
+            post.date_created = timezone.now()
+            post.save()
+            # return redirect('todo_item', id=post.pk)
+            return redirect('todo_home')
+    else:
+        form = PostForm(instance=post)
+    return render(request, 'todo/edit.html', {
+        'form': form,
+        'id': id
+    })
+
 
 def todo_delete (request, id):
     new_to_delete = get_object_or_404(ToDo, pk=id)
     if request.method == "POST":
-        form = DeleteForm(request.POST, instance=new_to_delete)
-        if form.is_valid():
+        form_1 = DeleteForm(request.POST, instance=new_to_delete)
+        if form_1.is_valid():
             new_to_delete.delete()
             return redirect('todo_home')
     else:
         form = DeleteForm()
         return render(request, 'todo/delete.html', {
-            'form': form
+            'form_1': form_1
             })
 
 def todo_home (request):
     todo = ToDo.objects.all()
     form = PostForm()
+    form_1 = DeleteForm()
     return render(request, 'todo/home.html', {
         'todo': todo,
-        'form': form
+        'form': form,
+        'form_1': form_1
     })
 
 

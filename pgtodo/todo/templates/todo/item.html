@@ -1,13 +1,20 @@
 
-<p>{{item.pk}} {{item.text}}</p>
-<p>{{item.created_date}}</p>
+<div id="item">
 
-<!-- {% include 'todo/edit.html' with id=item.pk %} -->
+  <div id="item_text">
+    <p>{{item.pk}} {{item.text}}</p>
+  </div>
+    <p>{{item.created_date}}</p>
+    <br>
+    <br>
+    {% include 'todo/delete.html' with id=item.pk %}
+    <br>
+    <form action="{% url 'todo_edit' id=item.pk %}" method="post">{% csrf_token %}
+        <input type="submit" value="Edit" />
+    </form>
 
-{% include 'todo/delete.html' with id=item.pk %}
-
-<form action="{% url 'todo_home' %}" method="post">{% csrf_token %}
-    <input type="submit" value="Home" />
-</form>
-
+    <!-- <form action="{% url 'todo_home' %}" method="post">{% csrf_token %}
+        <input type="submit" value="Home" />
+    </form> -->
+</div>
 <!-- this ensures that the id itme will be input -->
