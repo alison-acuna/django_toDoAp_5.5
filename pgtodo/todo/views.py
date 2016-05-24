@@ -47,7 +47,6 @@ def todo_new(request):
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save(commit=False)
-            post.user = request.user
             post.date_created = timezone.now()
             post.save()
             return redirect('todo_home')
@@ -65,7 +64,6 @@ def todo_edit(request, id):
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
-            post.user = request.user
             post.date_created = timezone.now()
             post.save()
             # return redirect('todo_item', id=post.pk)
